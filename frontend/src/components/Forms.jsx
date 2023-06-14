@@ -1,12 +1,15 @@
 import { FloatingLabel, Button, Form, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions as messagesActions, addMessage } from '../slices/messagesSlice.js'
 import axios from 'axios';
 import * as Yup from 'yup';
+import { useContext } from 'react';
+import SocketContext from '../components/SocketContext';
 
 // схемы проверки и верификации, через формик можно эти ошибки выводить в блок фидбек
-
 const registrationSchema = Yup.object().shape({
   username: Yup.string()
     .min(3, 'Минимум 3 буквы')
@@ -45,6 +48,7 @@ function LoginForm() {
         //получем токен и записываем его в локал сторадж, оттуда мы его потом можем вытаскивать в любых местах в браузере
         const authorizationResponse = await axios.post('/api/v1/login', values);
         localStorage.setItem('token', authorizationResponse.data.token);
+        localStorage.setItem('username', authorizationResponse.data.username);
         //так как вернулся токен, значит аутификация прошла удачно и мы переадресовываем на основную страницу чата(возможно надо через хук хистори, можно потом переделать)
         navigate('/');
       } catch (e) {
@@ -87,17 +91,28 @@ function LoginForm() {
 
 function ChatForm() {
   const chatFormRef = useRef(null);
-
+  const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
+  const username = localStorage.getItem('username');
+  const channelId = useSelector((state) => state.currentChannelIdReducer.currentChannelId);
+  // фокус только если поменялся канал
   useEffect(() => {
     chatFormRef.current.focus();
-  })
+  }, [channelId])
 
   const formik = useFormik({
     initialValues: {
       body:"",
     },
     validationSchema: chatSchema,
-    onSubmit: (values) => console.log(values),
+    onSubmit: (values) => {
+      const newMessageData = {...values, username, channelId};
+      dispatch(addMessage({ newMessageData, socket }));
+      //сброс инпута
+      formik.setValues({ body: '' });
+      //сброс фокуса
+      chatFormRef.current.blur();
+    },
   });
 
   return (

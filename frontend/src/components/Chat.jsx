@@ -1,8 +1,17 @@
+import { useEffect, useRef } from 'react';
 import Message from './Message';
 import { ChatForm } from './Forms';
 
 const Chat = (props) => {
   const { currentChannel, currentMessages } = props;
+
+  const messagesBoxRef = useRef(null);
+
+  useEffect(() => {
+    if (messagesBoxRef.current) {
+      messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+    }
+  }, [currentMessages]);
 
   return (
     <div className="col p-0 h-100">
@@ -11,7 +20,7 @@ const Chat = (props) => {
           <p className="m-0"><b># {currentChannel.name}</b></p>
           <span className="text-muted">{currentMessages.length} сообщений</span>
         </div>
-        <div className="chat-messages overflow-auto px-5" id="messages-box">
+        <div className="chat-messages overflow-auto px-5" id="messages-box" ref={messagesBoxRef}>
           {currentMessages.map((message) => <Message message={message} />)}
         </div>
         <div className="mt-auto px-5 py-3">

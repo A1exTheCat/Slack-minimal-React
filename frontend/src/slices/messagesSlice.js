@@ -1,4 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+export const addMessage = createAsyncThunk(
+  'messagesInfo/addMessage',
+  async ({newMessageData, socket}) => {
+    socket.emit('newMessage', newMessageData);
+  },
+);
 
 const initialState = {
   messages: [],

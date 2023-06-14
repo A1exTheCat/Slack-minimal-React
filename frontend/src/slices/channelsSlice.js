@@ -4,6 +4,11 @@ const initialState = {
   channels: [{
     id: 1,
     name: 'general',
+    removable: true,
+  },
+  {
+    id: 2,
+    name: 'aa',
     removable: false,
   }],
 };
@@ -16,7 +21,8 @@ const channelsSlice = createSlice({
         state.channels.push(payload);
       },
       setUpChannels: (state, { payload }) => {
-        state.channels = payload;
+        return;
+        //state.channels = payload;
       },
       updateChannel: (state, { payload }) => {
         state.channels = { ...state.channels, payload };
