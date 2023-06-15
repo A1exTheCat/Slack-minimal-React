@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { actions as channelsActions } from './channelsSlice.js';
 
 const initialState = {
   modalUi: {
@@ -26,6 +27,11 @@ const modalSlice = createSlice({
         state.modalUi.currentWorkingId = payload;
       },
     },
+    extraReducers: (builder) => {
+      builder.addCase(channelsActions.removeChannel, (state) => {
+        state.modalUi.currentWorkingId = 1;
+      })
+    }
   });
 
 export const { actions } = modalSlice;

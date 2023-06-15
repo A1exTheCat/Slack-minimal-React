@@ -63,21 +63,23 @@ const MainPage = () => {
     });
 
     socket.on('newChannel', (payload) => {
+      dispatch(channelsActions.addChannel(payload));
       console.log(payload) // { id: 6, name: "new channel", removable: true }
     });
 
     socket.on('removeChannel', (payload) => {
+      dispatch(channelsActions.removeChannel(payload));
       console.log(payload); // { id: 6 };
     });
 
     socket.on('renameChannel', (payload) => {
+      dispatch(channelsActions.renameChannel(payload));
       console.log(payload); // { id: 7, name: "new name channel", removable: true }
     });
     //при размонтировании закрываем соединение
     return () => {
       socket.disconnect();
     };
-
   }, []);
 
   //селекторы для пропсов компонентов

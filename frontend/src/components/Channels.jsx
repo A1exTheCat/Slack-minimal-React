@@ -36,7 +36,7 @@ const Channels = (props) => {
         <li className="nav-item w-100" key={channel.id}>
           <ButtonGroup role="group" className="d-flex dropdown">
             <Button variant={channel.id === currentChannelId ? `secondary` : `light`}
-            id={channel.id} className="w-100 rounded-0 text-start" onClick={() => dispatch(currentChannelIdActions.updateId(channel.id))}>
+            id={channel.id} className="w-100 rounded-0 text-start text-truncate" onClick={() => dispatch(currentChannelIdActions.updateId(channel.id))}>
               <span className="me-1">#</span>
               {channel.name}
             </Button>

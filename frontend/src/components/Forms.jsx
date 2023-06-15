@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions as messagesActions, addMessage } from '../slices/messagesSlice.js'
+import { addMessage } from '../slices/messagesSlice.js'
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useContext } from 'react';
-import SocketContext from '../components/SocketContext';
+import SocketContext from './SocketContext';
 
 // схемы проверки и верификации, через формик можно эти ошибки выводить в блок фидбек
 const registrationSchema = Yup.object().shape({
