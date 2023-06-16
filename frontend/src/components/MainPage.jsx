@@ -25,8 +25,8 @@ const MainPage = () => {
   //прописываем через хук юз эффект который срабатывает после каждого рендера, если есть 
   //токен, то рендерится главная страница, если нет, то кидает на страницу логина
   useEffect(() => {
-    if (!isAutorization) {navigate('/login')};
-    //если прошла проверка сверху, то подтягивает стейт, при этом надо в каждыйзапрос добавлять токен авторизации в хедере
+    if (!isAutorization()) {return navigate('/login')};
+    //если прошла проверка сверху, то подтягивает стейт, при этом надо в каждый запрос добавлять токен авторизации в хедере
     //который в акисос присоединяется в виде объекта
     const token = localStorage.getItem('token');
     //асинхронные функции в useEffect пишем внутри и запускаем тут же
@@ -93,7 +93,7 @@ const MainPage = () => {
     <SocketContext.Provider value={socketRef.current}>
       <div className="h-100" id="chat">
         <div className="d-flex flex-column h-100">
-          <NavbarComp authorization={isAutorization}/>
+          <NavbarComp authorization={isAutorization()}/>
           <Container className="h-100 my-4 overflow-hidden rounded shadow">
             <div className="row h-100 bg-white flex-md-row">
               <Channels channels={channels} currentChannelId={currentChannelId}/>

@@ -10,17 +10,6 @@ import { useContext } from 'react';
 import SocketContext from './SocketContext';
 
 // схемы проверки и верификации, через формик можно эти ошибки выводить в блок фидбек
-const registrationSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, 'Минимум 3 буквы')
-    .max(30, 'Максимум 30 букв')
-    .required('Обязательное поле'),
-  password: Yup.string()
-    .min(5, 'Минимум 5 букв')
-    .max(50, 'Максимум 50 букв')
-    .required('Обязательное поле'),
-});
-
 const chatSchema = Yup.object().shape({
     body: Yup.string()
       .min(1, 'Минимум 1 буква')
@@ -141,59 +130,124 @@ function ChatForm() {
 }
 
 function RegistrationForm() {
-  // прописываем через хук useRef для доступа к дом элементам, для их изменения 3 ссылки, в самих элементах в атрибутах прописываем эти имена в атрибут "ref"
-  const errorRef = useRef(null);
-  const inputNameRef = useRef(null);
-  const inputPassRef = useRef(null);
-  //инициализируем хук useFormik и прописываем "его стейт временный для наших полей" 
+  const userNameRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    userNameRef.current.focus();
+  }, [])
+
+  const registrationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, 'От 3 до 20 символов')
+      .max(20, 'От 3 до 20 символов')
+      .required('Обязательное поле'),
+    password: Yup.string()
+      .min(6, 'Не менее 6 символов')
+      .required('Обязательное поле'),
+    repeatPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
+    .required('Обязательное поле'),
+  });
+
   const formik = useFormik({
     initialValues: {
-      username:"",
-      password:""
+      username: '',
+      password: '',
+      repeatPassword: '',
     },
-  //прописываем что будем делать при сабмите через трай кетч для отлавливания ошибок
+    validationSchema: registrationSchema,
     onSubmit: async (values) => {
       try {
+        const { username, password } = values;
         //отправляем запрос на сервер(предварительно запускаем его если темтим с компа), отправляем наши данные на сервер,
         //получем токен и записываем его в локал сторадж, оттуда мы его потом можем вытаскивать в любых местах в браузере
-        const authorizationResponse = await axios.post('/api/v1/login', values);
-        localStorage.setItem('token', authorizationResponse.data.token);
-        //так как вернулся токен, значит аутификация прошла удачно и мы переадресовываем на основную страницу чата(возможно надо через хук хистори, можно потом переделать)
-        window.location.replace("/");
+        const signUpResponse = await axios.post('/api/v1/signup', { username, password });
+        localStorage.setItem('token', signUpResponse.data.token);
+        localStorage.setItem('username', signUpResponse.data.username);
+        //так как вернулся токен, значит аутификация прошла удачно и мы переадресовываем на основную страницу чата
+        navigate('/');
       } catch (e) {
-        //здесь через ссылки объявленные выше мы добавляем классы "is-invalid" в инпуты и удаляем и добавляем класс в див тулкита с описанием ошибки, что бы её вывели на экран
-        //кажется это фигня какая то, и надо по другому это реализовывать, в конце проверить
-        inputNameRef.current.classList.add('is-invalid');
-        inputPassRef.current.classList.add('is-invalid');
-        inputNameRef.current.focus();
-        errorRef.current.classList.remove("valid-tooltip");
-        errorRef.current.classList.add("invalid-tooltip");
+        userNameRef.current.focus();
+        userNameRef.current.select();
+        formik.errors.username = ' ';
+        formik.errors.password = ' ';
+        if (e.response.status === 409) {
+          formik.errors.repeatPassword = 'Такой пользователь уже существует';
+        } else {
+          formik.errors.repeatPassword = 'Ошибка сети';
+        }
       }
-    }
+    },
   });
-// для чека пустых инпутов просто вписывается required в пропсы компонента
-// для формика прописано value и onChange
+
+  const isInvalid = (fieldName) => formik.touched[fieldName] && formik.errors[fieldName];
+
   return (
     <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
-      <h1 className="text-center mb-4">Войти</h1>
+      <h1 className="text-center mb-4">Регистрация</h1>
       <FloatingLabel
-        controlId="floatingInput"
-        label="Ваш ник"
+        label="Имя пользователя"
         className="mb-3"
       >
-        <Form.Control ref={inputNameRef} type="username" name="username" className="form-control" onChange={formik.handleChange}
-        value={formik.values.username} required/>
+        <Form.Control
+          ref={userNameRef}
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Имя пользователя"
+          className={`${isInvalid('username') ? 'is-invalid' : ''}`}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.username}
+        />
+        {isInvalid('username') && (
+          <div className="invalid-tooltip right">
+            {formik.errors.username}
+          </div>
+        )}
       </FloatingLabel>
       <FloatingLabel
-        controlId="floatingPassword"
         label="Пароль"
         className="mb-3"
       >
-        <Form.Control ref={inputPassRef} type="password" name="password" className="form-control" onChange={formik.handleChange}
-        value={formik.values.password} required/>
-        <Form.Control.Feedback ref={errorRef} tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+        <Form.Control
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Пароль"
+          className={`${isInvalid('password') ? 'is-invalid' : ''}`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+        />
+        {isInvalid('password') && (
+          <div className="invalid-tooltip right">
+            {formik.errors.password}
+          </div>
+        )}
       </FloatingLabel>
-      <Button className="w-100 mb-3 btn btn-primary" type="submit">Войти</Button>
+      <FloatingLabel
+        label="Подтвердите пароль"
+        className="mb-3"
+      >
+        <Form.Control
+          type="password"
+          id="repeatPassword"
+          name="repeatPassword"
+          placeholder="Подтвердите пароль"
+          className={`${isInvalid('repeatPassword') ? 'is-invalid' : ''}`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.repeatPassword}
+        />
+        {isInvalid('repeatPassword') && (
+          <div className="invalid-tooltip right">
+            {formik.errors.repeatPassword}
+          </div>
+        )}
+      </FloatingLabel>
+      <Button className="w-100 mb-3 btn btn-primary" type="submit">Зарегистрироваться</Button>
     </Form>
   );
 }
