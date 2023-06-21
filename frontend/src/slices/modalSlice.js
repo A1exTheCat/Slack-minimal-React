@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { actions as channelsActions } from './channelsSlice.js';
+import { addMessageThunk } from './messagesSlice.js';
+import { addChannelThunk, renameChannelThunk, removeChannelThunk } from './channelsSlice.js';
 
 const initialState = {
   modalUi: {
@@ -7,6 +9,7 @@ const initialState = {
     isRemoveChannelModalShow: false,
     isRenameChannelModalShow: false,
     currentWorkingId: 1,
+    toastMessage: null,
   },
 };
 
@@ -26,10 +29,38 @@ const modalSlice = createSlice({
       changeCurrentWorkingId: (state, { payload }) => {
         state.modalUi.currentWorkingId = payload;
       },
+      changeToastMessage: (state, { payload }) => {
+        state.modalUi.toastMessage = payload;
+      },
     },
+    //сброс текущего канала с которым работаем при удалении канала
     extraReducers: (builder) => {
       builder.addCase(channelsActions.removeChannel, (state) => {
         state.modalUi.currentWorkingId = 1;
+      })
+    /* добавляем сообщение при ошибке для модального окна с предупреждениями, при ошибке в mainPage
+    будет срабатывать useEffect на изменение toastMessage и по сообщению в нем будет подтягиваться текст ошибки из i18n
+    через функцию в useEffect */
+      .addCase(addMessageThunk.rejected, (state, action) => {
+        state.modalUi.toastMessage = 'forms.errors.networkError';
+      })
+      .addCase(addChannelThunk.fulfilled, (state, action) => {
+        state.modalUi.toastMessage = 'toastify.addChannel';
+      })
+      .addCase(addChannelThunk.rejected, (state) => {
+        state.modalUi.toastMessage = 'forms.errors.networkError';
+      })
+      .addCase(renameChannelThunk.fulfilled, (state) => {
+        state.modalUi.toastMessage = 'toastify.renameChannel';
+      })
+      .addCase(renameChannelThunk.rejected, (state) => {
+        state.modalUi.toastMessage = 'forms.errors.networkError';
+      })
+      .addCase(removeChannelThunk.fulfilled, (state) => {
+        state.modalUi.toastMessage = 'toastify.removeChannel';
+      })
+      .addCase(removeChannelThunk.rejected, (state) => {
+        state.modalUi.toastMessage = 'forms.errors.networkError';
       })
     }
   });

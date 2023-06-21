@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { actions as channelsActions } from './channelsSlice.js';
 
-export const addMessage = createAsyncThunk(
+export const addMessageThunk = createAsyncThunk(
   'messagesInfo/addMessage',
   async ({newMessageData, socket}) => {
-    socket.emit('newMessage', newMessageData);
+      socket.emit('newMessage', newMessageData);
   },
 );
 
@@ -23,6 +23,7 @@ const messagesSlice = createSlice({
         state.messages = payload;
       },
     },
+    //удаление ненужных сообщений после удаления чата
     extraReducers: (builder) => {
       builder.addCase(channelsActions.removeChannel, (state, action) => {
         const delId = action.payload.id;

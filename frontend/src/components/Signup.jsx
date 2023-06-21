@@ -3,7 +3,7 @@ import NavbarComp from './Navbar';
 import { RegistrationForm } from './Forms';
 import signUpImg from '../assets/signUpImg.jpg';
 
-function Login() {
+function SignUp() {
   return (
     <div className="h-100 w-100" id="chat">
       <div className="d-flex flex-column h-100">
@@ -29,4 +29,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

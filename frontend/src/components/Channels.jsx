@@ -1,18 +1,16 @@
-import { useContext, useEffect } from 'react';
-import { AuthorizationContext } from './AuthorizationContext.jsx';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { actions as channelsActions } from '../slices/channelsSlice.js';
-import { actions as messagesActions } from '../slices/messagesSlice.js';
+import { useDispatch } from 'react-redux';
 import { actions as modalActions } from '../slices/modalSlice.js';
 import { actions as currentChannelIdActions } from '../slices/currentChannelIdSlice.js';
 import { Button, ButtonGroup, DropdownButton, Dropdown } from 'react-bootstrap';
-
+import { useTranslation } from 'react-i18next';
 
 const Channels = (props) => {
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
+  /* три функции по клику, которые меняют стейт для модальных окон
+   на изменения в которых в свою очередь реагируют компоненты модальных окон
+   и отображаются по нажатию, внутрь передаем id канала с которым идет работаб так как это не обязательно
+   активный канал */
   const handleOpenAddModal = () => {
     dispatch(modalActions.isAddShow(true));
   };
@@ -41,8 +39,8 @@ const Channels = (props) => {
               {channel.name}
             </Button>
             <DropdownButton variant={channel.id === currentChannelId ? `secondary` : `light`} as={ButtonGroup} title="" id={channel.id}>
-              <Dropdown.Item eventKey="1" onClick={() => handleOpenRemoveModal(channel.id)}>Удалить</Dropdown.Item>
-              <Dropdown.Item eventKey="2" onClick={() => handleOpenRenameModal(channel.id)}>Переименовать</Dropdown.Item>
+              <Dropdown.Item eventKey="1" onClick={() => handleOpenRemoveModal(channel.id)}>{t('mainPage.remove')}</Dropdown.Item>
+              <Dropdown.Item eventKey="2" onClick={() => handleOpenRenameModal(channel.id)}>{t('mainPage.rename')}</Dropdown.Item>
             </DropdownButton>
           </ButtonGroup>
         </li>
@@ -64,7 +62,7 @@ const Channels = (props) => {
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('mainPage.channels')}</b>
         <Button variant="text-primary" className="p-0 btn-group-vertical" onClick={handleOpenAddModal}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"></path>

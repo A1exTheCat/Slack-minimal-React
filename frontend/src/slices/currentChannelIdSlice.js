@@ -14,11 +14,13 @@ const currentChannelIdSlice = createSlice({
       },
     },
     extraReducers: (builder) => {
+      //переключение на канал general если удален текущий канал
       builder.addCase(channelsActions.removeChannel, (state, action) => {
         if(state.currentChannelId === action.payload.id) {
           state.currentChannelId = 1;
         }
       })
+      //переключение на новый канал при создании
       builder.addCase(channelsActions.addChannel, (state, action) => {
         const curId = action.payload.id;
         state.currentChannelId = curId;

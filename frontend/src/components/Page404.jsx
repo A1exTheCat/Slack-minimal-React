@@ -1,7 +1,7 @@
 import { Image } from 'react-bootstrap';
 import NavbarComp from './Navbar';
 import Svg404 from '../assets/404Img.svg';
-
+// изинтересного только подгрузка svg картинки из файла путем импорта
 const Page404 = () => (
   <div className="h-100" id="chat">
     <div className="d-flex flex-column h-100">
