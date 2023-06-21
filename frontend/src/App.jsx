@@ -4,6 +4,7 @@ import MainPage from './components/MainPage';
 import Page404 from './components/Page404';
 import Signup from './components/Signup';
 import './assets/application.scss';
+import { Provider, ErrorBoundary } from '@rollbar/react';
 import { AuthorizationContext, isAuthorization } from './components/AuthorizationContext.jsx';
 
 import i18next from 'i18next';
@@ -29,6 +30,11 @@ i18next
       escapeValue: false, // экранирование уже есть в React, поэтому отключаем
     },
   });
+  // конфигурации Rollbar для отлова ошибок
+  const rollbarConfig = {
+    accessToken: '5967f27a027f4e30996d5fde1062b6ed',
+    environment: 'testenv',
+  };
 
 /* Логика рутинга и прикрепляем контекст, предварительно импортировав его для проверки
 есть ли токен в сторедже браузера или нет, что значит что он залогинен
@@ -36,16 +42,20 @@ i18next
 path=* нужен специально для всех неверных запросов страниц и вывода для них страницы 404 */
 function App() {
   return (
-    <BrowserRouter>
-      <AuthorizationContext.Provider value={isAuthorization}>
-        <Routes>
-          <Route path="/" element={<MainPage /> } />
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<Page404 />} />
-          <Route path="signup" element={<Signup />} />
-        </Routes>
-      </AuthorizationContext.Provider>
-    </BrowserRouter>
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <AuthorizationContext.Provider value={isAuthorization}>
+            <Routes>
+              <Route path="/" element={<MainPage /> } />
+              <Route path="login" element={<Login />} />
+              <Route path="*" element={<Page404 />} />
+              <Route path="signup" element={<Signup />} />
+            </Routes>
+          </AuthorizationContext.Provider>
+        </BrowserRouter>
+      </ErrorBoundary>
+    </Provider>
   );
 }
 
