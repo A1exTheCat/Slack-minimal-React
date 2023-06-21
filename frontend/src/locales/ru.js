@@ -17,7 +17,7 @@ const ru = {
       MatchingPasswordError: 'Пароли должны совпадать',
       uniqeNameError: 'Такой пользователь уже существует',
       uniqeNameErrorModal: 'Должно быть уникальным',
-      networkError: 'Ошибка сети',
+      networkError: 'Ошибка соединения',
       minMessage: 'Минимум 1 буква',
     }
   },
@@ -43,8 +43,8 @@ const ru = {
     renameChannel: 'Переименовать канал',
   },
   toastify: {
-    addChannel: 'Канал добавлен',
-    removeChannel: 'Канал удален',
+    addChannel: 'Канал создан',
+    removeChannel: 'Канал удалён',
     renameChannel: 'Канал переименован',
   }
 }

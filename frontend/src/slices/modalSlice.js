@@ -41,23 +41,14 @@ const modalSlice = createSlice({
     /* добавляем сообщение при ошибке для модального окна с предупреждениями, при ошибке в mainPage
     будет срабатывать useEffect на изменение toastMessage и по сообщению в нем будет подтягиваться текст ошибки из i18n
     через функцию в useEffect */
-      .addCase(addMessageThunk.rejected, (state, action) => {
+      .addCase(addMessageThunk.rejected, (state) => {
         state.modalUi.toastMessage = 'forms.errors.networkError';
-      })
-      .addCase(addChannelThunk.fulfilled, (state, action) => {
-        state.modalUi.toastMessage = 'toastify.addChannel';
       })
       .addCase(addChannelThunk.rejected, (state) => {
         state.modalUi.toastMessage = 'forms.errors.networkError';
       })
-      .addCase(renameChannelThunk.fulfilled, (state) => {
-        state.modalUi.toastMessage = 'toastify.renameChannel';
-      })
       .addCase(renameChannelThunk.rejected, (state) => {
         state.modalUi.toastMessage = 'forms.errors.networkError';
-      })
-      .addCase(removeChannelThunk.fulfilled, (state) => {
-        state.modalUi.toastMessage = 'toastify.removeChannel';
       })
       .addCase(removeChannelThunk.rejected, (state) => {
         state.modalUi.toastMessage = 'forms.errors.networkError';

@@ -45,7 +45,7 @@ export const AddChannelModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { ...values };
-      dispatch(addChannelThunk({ newChannelData, socket }));
+      dispatch(addChannelThunk({ newChannelData, socket, dispatch }));
       handleClose();
     },
   });
@@ -104,7 +104,7 @@ export const RemoveModal = () => {
    в блоке каналов. После отправлем данные в thunk вместе с сокетом */
   const handleSubmit = () => {
     const removedChannelId = { id: currentRemovingId };
-    dispatch(removeChannelThunk({ removedChannelId, socket }));
+    dispatch(removeChannelThunk({ removedChannelId, socket, dispatch }));
     handleClose();
   };
 
@@ -170,7 +170,7 @@ export const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { id: currentRenamingId, ...values };
-      dispatch(renameChannelThunk({ newChannelData, socket }));
+      dispatch(renameChannelThunk({ newChannelData, socket, dispatch }));
       handleClose();
     },
   });

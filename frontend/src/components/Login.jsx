@@ -26,7 +26,7 @@ function Login() {
                 <Card.Footer className="p-4">
                   <div className="text-center">
                     <span>{t('forms.isAccountExisted')} </span>
-                    <a href="/signup">{t('forms.login')}</a>
+                    <a href="/signup">{t('forms.signup')}</a>
                   </div>
                 </Card.Footer>
               </Card>

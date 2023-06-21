@@ -1,11 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { actions as channelsActions } from './channelsSlice.js';
-
+import { actions as modalActions } from '../slices/modalSlice.js';
+/*Чанки устроены так, что от вервера получается ответ на любой запрос "ок" или нет,
+он проверяется, и на его основе меняем стейт для вывода сообщения о успехе или ошибке,
+при этом в дополнительных редьюсерахх тоже есть обработка rejected для ошибок с соединением
+и реакции на них */
 export const addMessageThunk = createAsyncThunk(
   'messagesInfo/addMessage',
-  async ({newMessageData, socket}) => {
-      socket.emit('newMessage', newMessageData);
-  },
+  async ({ newMessageData, socket, dispatch }) => {
+    socket.emit('newMessage', newMessageData, async (response) => {
+      if(response.status !== 'ok') {
+        dispatch(modalActions.changeToastMessage('forms.errors.networkError'));
+      };
+    })
+  }
 );
 
 const initialState = {

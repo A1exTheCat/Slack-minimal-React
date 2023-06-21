@@ -1,23 +1,42 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import { actions as modalActions } from '../slices/modalSlice.js';
+/* Чанки устроены так, что от вервера получается ответ на любой запрос "ок" или нет,
+он проверяется, и на его основе меняем стейт для вывода сообщения о успехе или ошибке,
+при этом в дополнительных редьюсерахх тоже есть обработка rejected для ошибок с соединением
+и реакции на них */
 export const addChannelThunk = createAsyncThunk(
   'channelInfo/newChannel',
-  async ({newChannelData, socket}) => {
-    socket.emit('newChannel', newChannelData);
+  async ({ newChannelData, socket, dispatch }) => {
+    socket.emit('newChannel', newChannelData, async (response) => {
+      if (response.status !== 'ok') {
+        dispatch(modalActions.changeToastMessage('forms.errors.networkError'));
+      }
+      dispatch(modalActions.changeToastMessage('toastify.addChannel'));
+    });
   },
 );
 
 export const renameChannelThunk = createAsyncThunk(
   'channelInfo/renameChannel',
-  async ({newChannelData, socket}) => {
-    socket.emit('renameChannel', newChannelData);
+  async ({ newChannelData, socket, dispatch }) => {
+    socket.emit('renameChannel', newChannelData, async (response) => {
+      if(response.status !== 'ok') {
+        dispatch(modalActions.changeToastMessage('forms.errors.networkError'));
+      }
+      dispatch(modalActions.changeToastMessage('toastify.renameChannel'));
+    });
   },
 );
 
 export const removeChannelThunk = createAsyncThunk(
   'channelInfo/removeChannel',
-  async ({removedChannelId, socket}) => {
-    socket.emit('removeChannel', removedChannelId);
+  async ({ removedChannelId, socket, dispatch }) => {
+    socket.emit('removeChannel', removedChannelId, async (response) => {
+      if (response.status !== 'ok') {
+        dispatch(modalActions.changeToastMessage('forms.errors.networkError'));
+      }
+      dispatch(modalActions.changeToastMessage('toastify.removeChannel'));
+    });
   },
 );
 

@@ -1,6 +1,7 @@
 import NavbarComp from './Navbar';
 import Channels from './Channels';
 import Chat from './Chat';
+import router from '../routes'
 import { AddChannelModal, RemoveModal, RenameModal } from './ModalWindows';
 import { useContext, useEffect, useRef } from 'react';
 import { AuthorizationContext } from './AuthorizationContext.jsx';
@@ -41,7 +42,7 @@ const MainPage = () => {
     //асинхронные функции в useEffect пишем внутри и запускаем тут же
     const getInitialData = async () => {
       try {
-        const { data } = await axios.get('/api/v1/data', {headers: {
+        const { data } = await axios.get(router('data'), {headers: {
           'Authorization': `Bearer ${token}`
         }});
         //загружаем первичные данные в наш стейт

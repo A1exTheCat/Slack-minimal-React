@@ -1,4 +1,5 @@
 import { FloatingLabel, Button, Form, InputGroup } from 'react-bootstrap';
+import router from '../routes'
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useRef, useEffect } from 'react';
@@ -31,7 +32,7 @@ function LoginForm() {
       try {
         //отправляем запрос на сервер(предварительно запускаем его если темтим с компа), отправляем наши данные на сервер,
         //получем токен и записываем его в локал сторадж, оттуда мы его потом можем вытаскивать в любых местах в браузере
-        const authorizationResponse = await axios.post('/api/v1/login', values);
+        const authorizationResponse = await axios.post(router('login'), values);
         localStorage.setItem('token', authorizationResponse.data.token);
         localStorage.setItem('username', authorizationResponse.data.username);
         /*так как вернулся токен, значит аутификация прошла удачно и мы переадресовываем на
@@ -104,7 +105,7 @@ function ChatForm() {
     validationSchema: chatSchema,
     onSubmit: (values) => {
       const newMessageData = {...values, username, channelId};
-      dispatch(addMessageThunk({ newMessageData, socket }));
+      dispatch(addMessageThunk({ newMessageData, socket, dispatch }));
       //сброс инпута методами formik 
       formik.setValues({ body: '' });
       //сброс фокуса через ref 
@@ -172,7 +173,7 @@ function RegistrationForm() {
         const { username, password } = values;
         //отправляем запрос на сервер, отправляем наши данные на сервер,
         //получем токен и записываем его в локал сторадж, оттуда мы его потом можем вытаскивать в любых местах в браузере
-        const signUpResponse = await axios.post('/api/v1/signup', { username, password });
+        const signUpResponse = await axios.post(router('signup'), { username, password });
         localStorage.setItem('token', signUpResponse.data.token);
         localStorage.setItem('username', signUpResponse.data.username);
         //так как вернулся токен, значит аутификация прошла удачно и мы переадресовываем на основную страницу чата
