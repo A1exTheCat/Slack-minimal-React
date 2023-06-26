@@ -75,8 +75,8 @@ export const AddChannelModal = () => {
               {formik.errors.name}
             </div>
           ) : null}
+          <label className="visually-hidden" htmlFor="name">{t('modals.addChannel')}</label>
           <div className="d-flex justify-content-end">
-            <label className="visually-hidden" htmlFor="name">{t('modals.addChannel')}</label>
             <Button variant="secondary" className="me-2" onClick={handleClose}>
               {t('modals.cancel')}
             </Button>
@@ -173,7 +173,7 @@ export const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { id: currentRenamingId, ...values };
-      dispatch(channelsActions.renameChannel(newChannelData));
+      dispatch(channelsActions.renameChannel(removedChannelId));
       dispatch(renameChannelThunk({ newChannelData, socket, dispatch }));
       handleClose();
     },
@@ -192,25 +192,25 @@ export const RenameModal = () => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-             <Form.Control
-              ref={inputRef}
-              id="name"
-              type="text"
-              placeholder=""
-              name="name"
-              autoFocus
-              className={`mb-2 ${formik.errors.name ? 'is-invalid' : ''}`}
-              onChange={formik.handleChange}
-              value={formik.values.name}
-            />
-            {formik.errors.name ? (
-              <div className="invalid-feedback">
-                {formik.errors.name}
-              </div>
-            ) : null}
+            <Form.Control
+            ref={inputRef}
+            id="name"
+            type="text"
+            placeholder=""
+            name="name"
+            autoFocus
+            className={`mb-2 ${formik.errors.name ? 'is-invalid' : ''}`}
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
+          {formik.errors.name ? (
+            <div className="invalid-feedback">
+              {formik.errors.name}
+            </div>
+          ) : null}
+          <label className="visually-hidden" htmlFor="name">{t('modals.renameChannel')}</label>
         </Form>
         <div className="d-flex justify-content-end">
-        <label className="visually-hidden" htmlFor="name">{t('modals.renameChannel')}</label>
           <Button variant="secondary" className="me-2" onClick={handleClose}>
             {t('modals.cancel')}
           </Button>
