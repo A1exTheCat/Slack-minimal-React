@@ -217,14 +217,13 @@ function RegistrationForm() {
     <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
       <h1 className="text-center mb-4">{t('forms.signup')}</h1>
       <FloatingLabel
-        htmlFor="username"
+        controlId="username"
         label={t('forms.name')}
         className="mb-3"
       >
         <Form.Control
           ref={userNameRef}
           type="text"
-          id="username"
           name="username"
           placeholder={t('forms.errors.symbolsError')}
           className={`${isInvalid('username') ? 'is-invalid' : ''}`}
@@ -233,19 +232,18 @@ function RegistrationForm() {
           value={formik.values.username}
         />
         {isInvalid('username') && (
-          <div className="invalid-tooltip right">
+          <div className="invalid-tooltip" placement="right">
             {formik.errors.username}
           </div>
         )}
       </FloatingLabel>
       <FloatingLabel
-        htmlFor="password"
+        controlId="password"
         label={t('forms.password')}
         className="mb-3"
       >
         <Form.Control
           type="password"
-          id="password"
           name="password"
           placeholder={t('forms.errors.minPasswordError')}
           className={`${isInvalid('password') ? 'is-invalid' : ''}`}
@@ -260,13 +258,12 @@ function RegistrationForm() {
         )}
       </FloatingLabel>
       <FloatingLabel
-        htmlFor="password"
+        controlId="repeatPassword"
         label={t('forms.ensurePassword')}
         className="mb-3"
       >
         <Form.Control
           type="password"
-          id="repeatPassword"
           name="repeatPassword"
           placeholder={t('forms.errors.MatchingPasswordError')}
           className={`${isInvalid('repeatPassword') ? 'is-invalid' : ''}`}
