@@ -168,10 +168,10 @@ function RegistrationForm() {
       .required(t('forms.errors.requiredError')),
     password: Yup.string()
       .min(6, t('forms.errors.minPasswordError'))
-      .required(t('forms.errors.requiredError')),
+      .required(t('forms.errors.minPasswordError')),
     repeatPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], t('forms.errors.MatchingPasswordError'))
-    .required(t('forms.errors.requiredError')),
+      .oneOf([Yup.ref('password'), null], t('forms.errors.MatchingPasswordError'))
+      .required(t('forms.errors.MatchingPasswordError')),
   });
 
   const formik = useFormik({
@@ -260,7 +260,7 @@ function RegistrationForm() {
         )}
       </FloatingLabel>
       <FloatingLabel
-        htmlFor="repeatPassword"
+        htmlFor="password"
         label={t('forms.ensurePassword')}
         className="mb-3"
       >
