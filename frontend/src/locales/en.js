@@ -34,6 +34,7 @@ const en = {
   },
   modals: {
     addChannel: 'Add channel',
+    channelName: 'Channel name',
     send: 'Send',
     cancel: 'Cancel',
     removeChannel: 'Delete channel',

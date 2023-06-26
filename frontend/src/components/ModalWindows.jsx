@@ -75,7 +75,7 @@ export const AddChannelModal = () => {
               {formik.errors.name}
             </div>
           ) : null}
-          <label className="visually-hidden" htmlFor="name">{t('modals.addChannel')}</label>
+          <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
           <div className="d-flex justify-content-end">
             <Button variant="secondary" className="me-2" onClick={handleClose}>
               {t('modals.cancel')}
@@ -208,7 +208,7 @@ export const RenameModal = () => {
               {formik.errors.name}
             </div>
           ) : null}
-          <label className="visually-hidden" htmlFor="name">{t('modals.renameChannel')}</label>
+          <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
         </Form>
         <div className="d-flex justify-content-end">
           <Button variant="secondary" className="me-2" onClick={handleClose}>
