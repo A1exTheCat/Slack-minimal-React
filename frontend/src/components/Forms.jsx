@@ -168,10 +168,10 @@ function RegistrationForm() {
       .required(t('forms.errors.requiredError')),
     password: Yup.string()
       .min(6, t('forms.errors.minPasswordError'))
-      .required(t('forms.errors.minPasswordError')),
+      .required(t('forms.errors.requiredError')),
     repeatPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], t('forms.errors.MatchingPasswordError'))
-      .required(t('forms.errors.MatchingPasswordError')),
+      .required(t('forms.errors.requiredError')),
   });
 
   const formik = useFormik({
@@ -226,7 +226,7 @@ function RegistrationForm() {
           type="text"
           id="username"
           name="username"
-          placeholder={t('forms.name')}
+          placeholder={t('forms.errors.symbolsError')}
           className={`${isInvalid('username') ? 'is-invalid' : ''}`}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
@@ -247,7 +247,7 @@ function RegistrationForm() {
           type="password"
           id="password"
           name="password"
-          placeholder={t('forms.password')}
+          placeholder={t('forms.errors.minPasswordError')}
           className={`${isInvalid('password') ? 'is-invalid' : ''}`}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -268,7 +268,7 @@ function RegistrationForm() {
           type="password"
           id="repeatPassword"
           name="repeatPassword"
-          placeholder={t('forms.ensurePassword')}
+          placeholder={t('forms.errors.MatchingPasswordError')}
           className={`${isInvalid('repeatPassword') ? 'is-invalid' : ''}`}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
