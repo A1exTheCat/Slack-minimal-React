@@ -11,8 +11,7 @@ import { useRef, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { addMessageThunk } from '../slices/messagesSlice.js'
-import { actions as messagesActions } from '../slices/messagesSlice.js';
+import { addMessageThunk, actions as messagesActions } from '../slices/messagesSlice.js'
 import SocketContext from './SocketContext';
 import router from '../routes';
 
@@ -117,8 +116,8 @@ function ChatForm() {
     validationSchema: chatSchema,
     onSubmit: (values) => {
       const newMessageData = {...values, username, channelId};
-      dispatch(messagesActions.addMessage(newMessageData));
-      //dispatch(addMessageThunk({ newMessageData, socket, dispatch }));
+      dispatch(messagesActions.addTempMessage(newMessageData));
+      dispatch(addMessageThunk({ newMessageData, socket, dispatch }));
       //сброс инпута методами formik 
       formik.setValues({ body: '' });
       //сброс фокуса через ref 

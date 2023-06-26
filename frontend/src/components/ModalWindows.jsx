@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRef, useEffect, useContext } from 'react';
 import SocketContext from './SocketContext.jsx';
 import { actions as modalActions } from '../slices/modalSlice.js';
-import { addChannelThunk, renameChannelThunk, removeChannelThunk } from '../slices/channelsSlice.js'
+import { addChannelThunk, renameChannelThunk, removeChannelThunk, actions as channelsActions } from '../slices/channelsSlice.js'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -45,6 +45,7 @@ export const AddChannelModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { ...values };
+      dispatch(channelsActions.addTempChannel(newChannelData));
       dispatch(addChannelThunk({ newChannelData, socket, dispatch }));
       handleClose();
     },
@@ -105,6 +106,7 @@ export const RemoveModal = () => {
    в блоке каналов. После отправлем данные в thunk вместе с сокетом */
   const handleSubmit = () => {
     const removedChannelId = { id: currentRemovingId };
+    dispatch(channelsActions.removeChannel(removedChannelId));
     dispatch(removeChannelThunk({ removedChannelId, socket, dispatch }));
     handleClose();
   };
@@ -171,6 +173,7 @@ export const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { id: currentRenamingId, ...values };
+      dispatch(channelsActions.renameChannel(newChannelData));
       dispatch(renameChannelThunk({ newChannelData, socket, dispatch }));
       handleClose();
     },
