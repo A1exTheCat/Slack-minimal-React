@@ -9,6 +9,7 @@ const en = {
     ensurePassword: 'Repeat password',
     signingUp: 'Signing up',
     enterMessage: 'Enter message...',
+    newMessage: 'New message',
     errors: {
       loginError: 'Incorrect username or password',
       symbolsError: '3 to 20 characters required',

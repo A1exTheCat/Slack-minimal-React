@@ -126,10 +126,10 @@ function ChatForm() {
   // в форме для блокировки кнопки отправки при пустом поле добавляем атрибут на кнопку disabled={!formik.isValid}
   return (
     <Form noValidate onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
-      <InputGroup controlId="chat">
+      <InputGroup className="has-validation">
         <Form.Control
         ref={chatFormRef}
-        aria-label={t('forms.enterMessage')}
+        aria-label={t('forms.newMessage')}
         type="body"
         placeholder={t('forms.enterMessage')}
         name="body"

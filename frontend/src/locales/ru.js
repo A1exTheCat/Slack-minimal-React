@@ -9,6 +9,7 @@ const ru = {
     ensurePassword: 'Подтвердите пароль',
     signingUp: 'Зарегестрироваться',
     enterMessage: 'Введите сообщение...',
+    newMessage: 'Новое сообщение',
     errors: {
       loginError: 'Неверные имя пользователя или пароль',
       symbolsError: 'От 3 до 20 символов',
