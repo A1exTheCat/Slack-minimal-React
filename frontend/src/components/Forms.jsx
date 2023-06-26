@@ -60,14 +60,13 @@ function LoginForm() {
     <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
       <h1 className="text-center mb-4">{t('forms.login')}</h1>
       <FloatingLabel
-        htmlFor="username"
+        controlId="username"
         label={t('forms.nickName')}
         className="mb-3"
       >
         <Form.Control
           ref={inputNameRef}
           type="username"
-          id="username"
           name="username"
           className="form-control"
           onChange={formik.handleChange}
@@ -76,11 +75,11 @@ function LoginForm() {
         />
       </FloatingLabel>
       <FloatingLabel
-        htmlFor="password"
+        controlId="password"
         label={t('forms.password')}
         className="mb-3"
       >
-        <Form.Control ref={inputPassRef} type="password" name="password" id="password" className="form-control" onChange={formik.handleChange}
+        <Form.Control ref={inputPassRef} type="password" name="password" className="form-control" onChange={formik.handleChange}
         value={formik.values.password} required/>
         <Form.Control.Feedback ref={errorRef} tooltip>{t('forms.errors.loginError')}</Form.Control.Feedback>
       </FloatingLabel>
@@ -132,7 +131,6 @@ function ChatForm() {
         ref={chatFormRef}
         aria-label={t('forms.enterMessage')}
         type="body"
-        id="chat"
         placeholder={t('forms.enterMessage')}
         name="body"
         className="form-control border-0 p-0 ps-2"
