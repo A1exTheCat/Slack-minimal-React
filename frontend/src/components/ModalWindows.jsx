@@ -75,6 +75,7 @@ export const AddChannelModal = () => {
             </div>
           ) : null}
           <div className="d-flex justify-content-end">
+            <label className="visually-hidden" htmlFor="name">{t('modals.addChannel')}</label>
             <Button variant="secondary" className="me-2" onClick={handleClose}>
               {t('modals.cancel')}
             </Button>
@@ -206,6 +207,7 @@ export const RenameModal = () => {
             ) : null}
         </Form>
         <div className="d-flex justify-content-end">
+        <label className="visually-hidden" htmlFor="name">{t('modals.renameChannel')}</label>
           <Button variant="secondary" className="me-2" onClick={handleClose}>
             {t('modals.cancel')}
           </Button>

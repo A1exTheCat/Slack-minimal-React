@@ -1,17 +1,21 @@
-import { FloatingLabel, Button, Form, InputGroup } from 'react-bootstrap';
-import router from '../routes'
+import {
+  FloatingLabel,
+  Button,
+  Form,
+  InputGroup,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMessageThunk } from '../slices/messagesSlice.js'
-import axios from 'axios';
 import * as Yup from 'yup';
-import { useContext } from 'react';
+import axios from 'axios';
+import { addMessageThunk } from '../slices/messagesSlice.js'
 import SocketContext from './SocketContext';
-import { useTranslation } from 'react-i18next';
+import router from '../routes';
 
-//Создаем компонент формы для входа
+// Создаем компонент формы для входа
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -21,17 +25,17 @@ function LoginForm() {
   const errorRef = useRef(null);
   const inputNameRef = useRef(null);
   const inputPassRef = useRef(null);
-  //инициализируем хук useFormik и прописываем "его стейт временный для наших полей" 
+  // инициализируем хук useFormik и прописываем "его стейт временный для наших полей" 
   const formik = useFormik({
     initialValues: {
-      username:"",
-      password:""
+      username: '',
+      password: '',
     },
-  //прописываем что будем делать при сабмите через трай кетч для отлавливания ошибок
+    // прописываем что будем делать при сабмите через трай кетч для отлавливания ошибок
     onSubmit: async (values) => {
       try {
-        //отправляем запрос на сервер(предварительно запускаем его если темтим с компа), отправляем наши данные на сервер,
-        //получем токен и записываем его в локал сторадж, оттуда мы его потом можем вытаскивать в любых местах в браузере
+        // отправляем запрос на сервер(предварительно запускаем его если темтим с компа), отправляем наши данные на сервер,
+        // получем токен и записываем его в локал сторадж, оттуда мы его потом можем вытаскивать в любых местах в браузере
         const authorizationResponse = await axios.post(router('login'), values);
         localStorage.setItem('token', authorizationResponse.data.token);
         localStorage.setItem('username', authorizationResponse.data.username);
@@ -56,19 +60,27 @@ function LoginForm() {
     <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
       <h1 className="text-center mb-4">{t('forms.login')}</h1>
       <FloatingLabel
-        controlId="floatingInput"
+        htmlFor="username"
         label={t('forms.nickName')}
         className="mb-3"
       >
-        <Form.Control ref={inputNameRef} type="username" name="username" className="form-control" onChange={formik.handleChange}
-        value={formik.values.username} required/>
+        <Form.Control
+          ref={inputNameRef}
+          type="username"
+          id="username"
+          name="username"
+          className="form-control"
+          onChange={formik.handleChange}
+          value={formik.values.username}
+          required
+        />
       </FloatingLabel>
       <FloatingLabel
-        controlId="floatingPassword"
+        htmlFor="password"
         label={t('forms.password')}
         className="mb-3"
       >
-        <Form.Control ref={inputPassRef} type="password" name="password" className="form-control" onChange={formik.handleChange}
+        <Form.Control ref={inputPassRef} type="password" name="password" id="password" className="form-control" onChange={formik.handleChange}
         value={formik.values.password} required/>
         <Form.Control.Feedback ref={errorRef} tooltip>{t('forms.errors.loginError')}</Form.Control.Feedback>
       </FloatingLabel>
@@ -115,11 +127,12 @@ function ChatForm() {
   // в форме для блокировки кнопки отправки при пустом поле добавляем атрибут на кнопку disabled={!formik.isValid}
   return (
     <Form noValidate onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
-      <InputGroup controlId="">
+      <InputGroup controlId="chat">
         <Form.Control
         ref={chatFormRef}
         aria-label={t('forms.enterMessage')}
         type="body"
+        id="chat"
         placeholder={t('forms.enterMessage')}
         name="body"
         className="form-control border-0 p-0 ps-2"
@@ -204,6 +217,7 @@ function RegistrationForm() {
     <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
       <h1 className="text-center mb-4">{t('forms.signup')}</h1>
       <FloatingLabel
+        htmlFor="username"
         label={t('forms.name')}
         className="mb-3"
       >
@@ -225,6 +239,7 @@ function RegistrationForm() {
         )}
       </FloatingLabel>
       <FloatingLabel
+        htmlFor="password"
         label={t('forms.password')}
         className="mb-3"
       >
@@ -245,6 +260,7 @@ function RegistrationForm() {
         )}
       </FloatingLabel>
       <FloatingLabel
+        htmlFor="repeatPassword"
         label={t('forms.ensurePassword')}
         className="mb-3"
       >
