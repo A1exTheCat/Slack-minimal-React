@@ -33,14 +33,15 @@ const Channels = (props) => {
       return (
         <li className="nav-item w-100" key={channel.id}>
           <ButtonGroup role="group" className="d-flex dropdown">
-            <Button variant={channel.id === currentChannelId ? `secondary` : `light`}
+          <Button variant={channel.id === currentChannelId ? `secondary` : `light`}
             id={channel.id} className="w-100 rounded-0 text-start text-truncate" onClick={() => dispatch(currentChannelIdActions.updateId(channel.id))}>
-              <span className="me-1">#</span>
-              {channel.name}
-            </Button>
-            <DropdownButton variant={channel.id === currentChannelId ? `secondary` : `light`} as={ButtonGroup} title="" id={channel.id}>
+            <span className="me-1">#</span>
+            {channel.name}
+          </Button>
+            <DropdownButton variant={channel.id === currentChannelId ? `secondary` : `light`} as={ButtonGroup} title={<span className="visually-hidden">Управление каналом</span>}  id={channel.id}>
               <Dropdown.Item eventKey="1" onClick={() => handleOpenRemoveModal(channel.id)}>{t('mainPage.remove')}</Dropdown.Item>
               <Dropdown.Item eventKey="2" onClick={() => handleOpenRenameModal(channel.id)}>{t('mainPage.rename')}</Dropdown.Item>
+              <span className="visually-hidden">Управление каналом</span>
             </DropdownButton>
           </ButtonGroup>
         </li>
