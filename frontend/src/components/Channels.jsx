@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { actions as modalActions } from '../slices/modalSlice.js';
 import { actions as currentChannelIdActions } from '../slices/currentChannelIdSlice.js';
-import { Button, ButtonGroup, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const Channels = (props) => {
@@ -32,18 +32,20 @@ const Channels = (props) => {
     if (channel.removable) {
       return (
         <li className="nav-item w-100" key={channel.id}>
-          <ButtonGroup role="group" className="d-flex dropdown">
+          <Dropdown as={ButtonGroup} className="d-flex">
           <Button variant={channel.id === currentChannelId ? `secondary` : `light`}
             id={channel.id} className="w-100 rounded-0 text-start text-truncate" onClick={() => dispatch(currentChannelIdActions.updateId(channel.id))}>
             <span className="me-1">#</span>
             {channel.name}
           </Button>
-            <DropdownButton variant={channel.id === currentChannelId ? `secondary` : `light`} as={ButtonGroup} title={<span className="visually-hidden">Управление каналом</span>}  id={channel.id}>
-              <Dropdown.Item eventKey="1" onClick={() => handleOpenRemoveModal(channel.id)}>{t('mainPage.remove')}</Dropdown.Item>
-              <Dropdown.Item eventKey="2" onClick={() => handleOpenRenameModal(channel.id)}>{t('mainPage.rename')}</Dropdown.Item>
-              <span className="visually-hidden">Управление каналом</span>
-            </DropdownButton>
-          </ButtonGroup>
+              <Dropdown.Toggle variant={channel.id === currentChannelId ? `secondary` : `light`} as={Button} title=""  id={channel.id}>
+                <span className="visually-hidden">Управление каналом</span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey="1" onClick={() => handleOpenRemoveModal(channel.id)}>{t('mainPage.remove')}</Dropdown.Item>
+                <Dropdown.Item eventKey="2" onClick={() => handleOpenRenameModal(channel.id)}>{t('mainPage.rename')}</Dropdown.Item>
+              </Dropdown.Menu>
+          </Dropdown>
         </li>
       )
     }
