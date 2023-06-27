@@ -47,6 +47,7 @@ export const AddChannelModal = () => {
       const newChannelData = { ...values };
       dispatch(channelsActions.addTempChannel(newChannelData));
       dispatch(addChannelThunk({ newChannelData, socket, dispatch }));
+      dispatch(modalActions.changeToastMessage('toastify.addChannel'));
       handleClose();
     },
   });
@@ -108,6 +109,7 @@ export const RemoveModal = () => {
     const removedChannelId = { id: currentRemovingId };
     dispatch(channelsActions.removeChannel(removedChannelId));
     dispatch(removeChannelThunk({ removedChannelId, socket, dispatch }));
+    dispatch(modalActions.changeToastMessage('toastify.removeChannel'));
     handleClose();
   };
 
@@ -173,8 +175,9 @@ export const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { id: currentRenamingId, ...values };
-      dispatch(channelsActions.renameChannel(removedChannelId));
+      dispatch(channelsActions.renameChannel(newChannelData));
       dispatch(renameChannelThunk({ newChannelData, socket, dispatch }));
+      dispatch(modalActions.changeToastMessage('toastify.renameChannel'));
       handleClose();
     },
   });

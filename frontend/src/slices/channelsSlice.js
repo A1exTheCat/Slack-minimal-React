@@ -11,7 +11,6 @@ export const addChannelThunk = createAsyncThunk(
       if (response.status !== 'ok') {
         dispatch(modalActions.changeToastMessage('forms.errors.networkError'));
       }
-      dispatch(modalActions.changeToastMessage('toastify.addChannel'));
     });
   },
 );
@@ -23,7 +22,6 @@ export const renameChannelThunk = createAsyncThunk(
       if(response.status !== 'ok') {
         dispatch(modalActions.changeToastMessage('forms.errors.networkError'));
       }
-      dispatch(modalActions.changeToastMessage('toastify.renameChannel'));
     });
   },
 );
@@ -35,7 +33,6 @@ export const removeChannelThunk = createAsyncThunk(
       if (response.status !== 'ok') {
         dispatch(modalActions.changeToastMessage('forms.errors.networkError'));
       }
-      dispatch(modalActions.changeToastMessage('toastify.removeChannel'));
     });
   },
 );
