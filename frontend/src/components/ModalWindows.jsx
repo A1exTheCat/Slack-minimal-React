@@ -46,7 +46,7 @@ export const AddChannelModal = () => {
     onSubmit: (values) => {
       const newChannelData = { ...values };
       dispatch(addChannelThunk({ newChannelData, socket, dispatch }));
-      //dispatch(channelsActions.addTempChannel(newChannelData));
+      dispatch(channelsActions.addTempChannel(newChannelData));
       dispatch(modalActions.changeToastMessage('toastify.addChannel'));
       handleClose();
     },
