@@ -59,7 +59,7 @@ const MainPage = () => {
 
     //Подписываемся на обновления с сервера через socket.io c авторизацией, запускается только в первый рендер
     const getSocket = () => {
-      try { return io('http://localhost:3000', {
+      try { return io('http://localhost:5001', {
         extraHeaders: {
           'Authorization': `Bearer ${token}`,
         },
