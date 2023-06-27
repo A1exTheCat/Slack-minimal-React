@@ -18,9 +18,8 @@ import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const MainPage = () => {
-  //подключаем i18n для словаря
+  // подключаем i18n для словаря
   const { t } = useTranslation();
   //функция для вывода сообщений о ошибках
   const notify = (text) => toast(text);
