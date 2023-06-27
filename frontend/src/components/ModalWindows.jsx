@@ -45,8 +45,8 @@ export const AddChannelModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { ...values };
-      dispatch(channelsActions.addTempChannel(newChannelData));
       dispatch(addChannelThunk({ newChannelData, socket, dispatch }));
+      dispatch(channelsActions.addTempChannel(newChannelData));      
       dispatch(modalActions.changeToastMessage('toastify.addChannel'));
       handleClose();
     },
@@ -107,8 +107,8 @@ export const RemoveModal = () => {
    в блоке каналов. После отправлем данные в thunk вместе с сокетом */
   const handleSubmit = () => {
     const removedChannelId = { id: currentRemovingId };
-    dispatch(channelsActions.removeChannel(removedChannelId));
     dispatch(removeChannelThunk({ removedChannelId, socket, dispatch }));
+    dispatch(channelsActions.removeChannel(removedChannelId));
     dispatch(modalActions.changeToastMessage('toastify.removeChannel'));
     handleClose();
   };
@@ -175,8 +175,8 @@ export const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { id: currentRenamingId, ...values };
-      dispatch(channelsActions.renameChannel(newChannelData));
       dispatch(renameChannelThunk({ newChannelData, socket, dispatch }));
+      dispatch(channelsActions.renameChannel(newChannelData));
       dispatch(modalActions.changeToastMessage('toastify.renameChannel'));
       handleClose();
     },
