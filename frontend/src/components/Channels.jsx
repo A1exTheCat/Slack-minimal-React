@@ -38,8 +38,8 @@ const Channels = (props) => {
             <span className="me-1">#</span>
             {channel.name}
           </Button>
-              <Dropdown.Toggle variant={channel.id === currentChannelId ? `secondary` : `light`} as={Button} title=""  id={channel.id}>
-                <span className="visually-hidden">Управление каналом</span>
+              <Dropdown.Toggle variant={channel.id === currentChannelId ? `secondary` : `light`} className="flex-grow-0 dropdown-toggle-split" as={Button} id={channel.id}>
+                <span className="visually-hidden">{t('modals.channelsControl')}</span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item eventKey="1" onClick={() => handleOpenRemoveModal(channel.id)}>{t('mainPage.remove')}</Dropdown.Item>
@@ -74,7 +74,7 @@ const Channels = (props) => {
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      <ul id="channel-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+      <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel) => channelsGenerator(channel))}
       </ul>
     </div>

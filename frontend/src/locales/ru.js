@@ -43,6 +43,7 @@ const ru = {
     remove: 'Удалить',
     sure: 'Уверены?',
     renameChannel: 'Переименовать канал',
+    channelsControl: 'Управление каналом',
   },
   toastify: {
     addChannel: 'Канал создан',

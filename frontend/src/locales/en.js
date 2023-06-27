@@ -41,6 +41,7 @@ const en = {
     remove: 'Delete',
     sure: 'Sure?',
     renameChannel: 'Rename channel',
+    channelsControl: 'Channels control',
   },
   toastify: {
     addChannel: 'Channel added',
