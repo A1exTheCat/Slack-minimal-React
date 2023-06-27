@@ -24,12 +24,12 @@ plugins:
   - functional
 
 rules:
-#  import/extensions: 0
+  import/extensions: 0
 #  import/no-unresolved: 0
 #  react/prop-types: 0
 #  no-console: 0
 #  react/react-in-jsx-scope: 0
-#  functional/no-conditional-statement: 0
+# functional/no-conditional-statement: 0
 #  functional/no-expression-statement: 0
 #  functional/immutable-data: 0
 #  functional/functional-parameters: 0

@@ -98,7 +98,7 @@ const MainPage = () => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [dispatch, isAutorization, navigate, t]);
 
   //селектор для модалки toastify
   const toastMessage = useSelector((state) => state.modalReducer.modalUi.toastMessage);
