@@ -32,6 +32,9 @@ const modalSlice = createSlice({
       changeToastMessage: (state, { payload }) => {
         state.modalUi.toastMessage = payload;
       },
+      resetToastMessage: (state) => {
+        state.modalUi.toastMessage = null;
+      },
     },
     //сброс текущего канала с которым работаем при удалении канала
     extraReducers: (builder) => {

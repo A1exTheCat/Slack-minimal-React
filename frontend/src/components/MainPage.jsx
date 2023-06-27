@@ -106,6 +106,7 @@ const MainPage = () => {
     при первом рендере*/
   useEffect(() => {
     toastMessage && notify(t(toastMessage))
+    dispatch(modalActions.resetToastMessage())
   }, [toastMessage, t]);
 
   //селекторы для пропсов компонентов

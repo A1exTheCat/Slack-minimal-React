@@ -181,7 +181,9 @@ export const RenameModal = () => {
   // выделение текста при активации формы
   useEffect(() => {
     if (isRenameShow) {
-      inputRef.current.select();
+      setTimeout(() => {
+        inputRef.current.select()
+      }, 0);
     }
   }, [isRenameShow]);
   // вывод ошибок по тому же принципу как в предыдущем модальном окне добавления нового канала
