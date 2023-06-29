@@ -53,11 +53,12 @@ const channelsSlice = createSlice({
     initialState,
     reducers: {
       addTempChannel: (state, { payload }) => {
-        const tempChannel = {...payload, id: 'temp', removable: true};
+        const tempChannel = {...payload, id: 0, removable: true};
+        console.log(tempChannel);
         state.channels.push(tempChannel);
       },
       addChannel: (state, { payload }) => {
-        const tempChannel = state.channels.find((c) => c.id === 'temp');
+        const tempChannel = state.channels.find((c) => c.id === 0);
         if(tempChannel && tempChannel.name === payload.name) {
           tempChannel.id = payload.id;
         } else {

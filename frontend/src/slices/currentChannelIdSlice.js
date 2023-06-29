@@ -21,9 +21,14 @@ const currentChannelIdSlice = createSlice({
         }
       })
       //переключение на новый канал при создании
+      builder.addCase(channelsActions.addTempChannel, (state) => {
+        state.currentChannelId = 0;
+      })
       builder.addCase(channelsActions.addChannel, (state, action) => {
-        const curId = action.payload.id;
-        state.currentChannelId = curId;
+        const { id } = action.payload;
+        if(state.currentChannelId === 0) {
+          state.currentChannelId = id;
+        }
       })
     }
   });
