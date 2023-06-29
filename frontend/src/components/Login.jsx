@@ -1,10 +1,15 @@
-import { Row, Container, Card, Image } from 'react-bootstrap';
+import {
+  Row,
+  Container,
+  Card,
+  Image,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import NavbarComp from './Navbar';
 import { LoginForm } from './Forms';
 import loginImg from '../assets/loginImg.jpg';
-import { useTranslation } from 'react-i18next';
 
-function Login() {
+const Login = () => {
   const { t } = useTranslation();
 
   return (
@@ -17,15 +22,19 @@ function Login() {
               <Card className="shadow-sm">
                 <Card.Body className="row p-5">
                   <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                    <Image src={loginImg}
-                      alt={t('forms.login')} className="rounded-circle">
-                    </Image>
+                    <Image
+                      src={loginImg}
+                      alt={t('forms.login')}
+                      className="rounded-circle"
+                    />
                   </div>
                   <LoginForm />
                 </Card.Body>
                 <Card.Footer className="p-4">
                   <div className="text-center">
-                    <span>{t('forms.isAccountExisted')} </span>
+                    <span>
+                      {`${t('forms.isAccountExisted')} `}
+                    </span>
                     <a href="/signup">{t('forms.signup')}</a>
                   </div>
                 </Card.Footer>
@@ -36,6 +45,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

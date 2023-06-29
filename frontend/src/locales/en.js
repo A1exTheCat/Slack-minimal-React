@@ -4,8 +4,8 @@ const en = {
     signup: 'Sign Up',
     nickName: 'Nickname',
     password: 'Password',
-    isAccountExisted: `Don't have an account?`,
-    name: `User's name`,
+    isAccountExisted: 'Don`t have an account?',
+    name: 'User`s name',
     ensurePassword: 'Repeat password',
     signingUp: 'Signing up',
     enterMessage: 'Enter message...',
@@ -20,7 +20,7 @@ const en = {
       uniqeNameErrorModal: 'Must be unique',
       networkError: 'Network error',
       minMessage: 'Minimum 1 letter',
-    }
+    },
   },
   navBar: {
     exit: 'Log Out',
@@ -47,7 +47,12 @@ const en = {
     addChannel: 'Channel added',
     removeChannel: 'Channel deleted',
     renameChannel: 'Channel renamed',
-  }
-}
+  },
+  page404: {
+    noPage: 'Page doesn`t find',
+    canRelocate: 'But you could go',
+    toMainPage: 'to main page',
+  },
+};
 
 export default en;

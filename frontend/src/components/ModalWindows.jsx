@@ -1,29 +1,30 @@
-import { Button, Modal, Form  } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef, useEffect, useContext } from 'react';
-import SocketContext from './SocketContext.jsx';
-import { actions as modalActions } from '../slices/modalSlice.js';
-import { addChannelThunk, renameChannelThunk, removeChannelThunk, actions as channelsActions } from '../slices/channelsSlice.js'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import SocketContext from './SocketContext.jsx';
+import { actions as modalActions } from '../slices/modalSlice.js';
+import {
+  addChannelThunk,
+  renameChannelThunk,
+  removeChannelThunk,
+  actions as channelsActions,
+} from '../slices/channelsSlice.js';
 
-  //Модальное окно добавления нового канала
+// Модальное окно добавления нового канала
 export const AddChannelModal = () => {
   // подтягиваем сокет и прописываем dispatch для использования редакса
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const socket = useContext(SocketContext);
-  //подтягиваем из стора значение статуса показа модалки и все существующие каналы
+  // подтягиваем из стора значение статуса показа модалки и все существующие каналы
   const isAddChannelShow = useSelector((state) => state.modalReducer.modalUi.isAddChannelModalShow);
   const channels = useSelector((state) => state.channelsReducer.channels);
-  /* действие при закрытии формы, меняем статус показа модалки в сторе
-   и используем метод formik для сброса формы */
-  const handleClose = () => {
-    dispatch(modalActions.isAddShow(false));
-    formik.resetForm();
-  };
-  // схема валидации, из особенного пункт test, в котором проводится проверка на отсутствие канала с таким именем
+
+  /* схема валидации, из особенного пункт test,
+    в котором проводится проверка на отсутствие канала с таким именем */
   const newChannelNameSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, t('forms.errors.symbolsError'))
@@ -31,29 +32,37 @@ export const AddChannelModal = () => {
       .required(t('forms.errors.requiredError'))
       .test('is-uniqe', t('forms.errors.uniqeNameErrorModal'), (value) => {
         const isChannelExist = channels.find((channel) => channel.name === value);
-        return (isChannelExist === undefined)
+        return (isChannelExist === undefined);
       }),
   });
-  /* экземпляр формика, из особенного - отключаем реакцию на валидации на изменения и на блюр, на сабмит отправляем данные в thunk и 
+  /* действие при закрытии формы, меняем статус показа модалки в сторе
+   и используем метод formik для сброса формы */
+  const handleClose = (formik) => {
+    dispatch(modalActions.isAddShow(false));
+    formik.resetForm();
+  };
+  /* экземпляр формика, из особенного - отключаем реакцию на
+    валидации на изменения и на блюр, на сабмит отправляем данные в thunk и
     вызываем функцию закрытия модального окна */
   const formik = useFormik({
     initialValues: {
-      name:"",
+      name: '',
     },
     validationSchema: newChannelNameSchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { ...values };
-      dispatch(addChannelThunk({ newChannelData, socket, dispatch }));
       dispatch(channelsActions.addTempChannel(newChannelData));
+      dispatch(addChannelThunk({ newChannelData, socket, dispatch }));
       dispatch(modalActions.changeToastMessage('toastify.addChannel'));
-      handleClose();
+      handleClose(formik);
     },
   });
-  /*Модальное окно рендерится или не рендерится в зависимости от атрибута show, который берется из 
-  стора, по умолчанию который false 
-  прописываем атрибут is-invalid в зависимости от наличия ошибок и блок с ошибкой ниже тоже*/
+
+  /* Модальное окно рендерится или не рендерится в зависимости от атрибута show, который берется из
+    стора, по умолчанию который false прописываем атрибут is-invalid в зависимости
+    от наличия ошибок и блок с ошибкой ниже тоже */
   return (
     <Modal show={isAddChannelShow} onHide={handleClose} centered>
       <Modal.Header closeButton>
@@ -78,7 +87,7 @@ export const AddChannelModal = () => {
           ) : null}
           <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" className="me-2" onClick={handleClose}>
+            <Button variant="secondary" className="me-2" onClick={() => handleClose(formik)}>
               {t('modals.cancel')}
             </Button>
             <Button variant="primary" type="button" onClick={formik.handleSubmit}>
@@ -88,7 +97,7 @@ export const AddChannelModal = () => {
         </Form>
       </Modal.Body>
     </Modal>
-  )
+  );
 };
 // модалка без формы на удаление канала
 export const RemoveModal = () => {
@@ -107,8 +116,8 @@ export const RemoveModal = () => {
    в блоке каналов. После отправлем данные в thunk вместе с сокетом */
   const handleSubmit = () => {
     const removedChannelId = { id: currentRemovingId };
-    dispatch(removeChannelThunk({ removedChannelId, socket, dispatch }));
     dispatch(channelsActions.removeChannel(removedChannelId));
+    dispatch(removeChannelThunk({ removedChannelId, socket, dispatch }));
     dispatch(modalActions.changeToastMessage('toastify.removeChannel'));
     handleClose();
   };
@@ -120,7 +129,7 @@ export const RemoveModal = () => {
       </Modal.Header>
       <Modal.Body>
         <p className="lead">{t('modals.sure')}</p>
-          <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end">
           <Button variant="secondary" className="me-2" onClick={handleClose}>
             {t('modals.cancel')}
           </Button>
@@ -130,23 +139,23 @@ export const RemoveModal = () => {
         </div>
       </Modal.Body>
     </Modal>
-  )
+  );
 };
 
 export const RenameModal = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const socket = useContext(SocketContext);
-  /* подтягиваем данные для активации окна и текущий канал с которым работаеми реф для выделения имени
-    при активации окна*/
+  /* подтягиваем данные для активации окна и текущий канал
+    с которым работаеми реф для выделения имени при активации окна */
   const isRenameShow = useSelector((state) => state.modalReducer.modalUi.isRenameChannelModalShow);
   const currentRenamingId = useSelector((state) => state.modalReducer.modalUi.currentWorkingId);
   const channels = useSelector((state) => state.channelsReducer.channels);
   const currentChannel = channels.find((channel) => channel.id === currentRenamingId);
   const inputRef = useRef(null);
-  /*функция закрытия окна с ресетом формы по таймингу, так как если сделать сразу,
+  /* функция закрытия окна с ресетом формы по таймингу, так как если сделать сразу,
    то мелькает в последний момент форма и выглядит как глитч */
-  const handleClose = () => {
+  const handleClose = (formik) => {
     dispatch(modalActions.isRenameShow(false));
     setTimeout(() => formik.resetForm(), 300);
   };
@@ -158,13 +167,14 @@ export const RenameModal = () => {
       .required(t('forms.errors.requiredError'))
       .test('is-uniqe', t('forms.errors.uniqeNameErrorModal'), (value) => {
         const isChannelExist = channels.find((channel) => channel.name === value);
-        return (isChannelExist === undefined)
+        return (isChannelExist === undefined);
       }),
   });
-  /*В формике отключаем валидацию при изменении и блюре, важная деталь, мы устанавливаем  enableReinitialize: true,
-  потому что формик инициалирируется один раз при первом рендере и потом если не прописать эту настройку
-  все время будет в форме name текущего канала на момент инициализации. Если же прописать эту настройку,
-  то будем каждый раз подтягиваться нвоое значение*/
+  /* В формике отключаем валидацию при изменении и блюре, важная деталь,
+    мы устанавливаем  enableReinitialize: true,потому что формик инициалирируется
+    один раз при первом рендере и потом если не прописать эту настройку
+    все время будет в форме name текущего канала на момент инициализации.
+    Если же прописать эту настройку, то будем каждый раз подтягиваться нвоое значение */
   const formik = useFormik({
     initialValues: {
       name: currentChannel.name,
@@ -175,17 +185,17 @@ export const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const newChannelData = { id: currentRenamingId, ...values };
-      dispatch(renameChannelThunk({ newChannelData, socket, dispatch }));
       dispatch(channelsActions.renameChannel(newChannelData));
+      dispatch(renameChannelThunk({ newChannelData, socket, dispatch }));
       dispatch(modalActions.changeToastMessage('toastify.renameChannel'));
-      handleClose();
+      handleClose(formik);
     },
   });
   // выделение текста при активации формы
   useEffect(() => {
     if (isRenameShow) {
       setTimeout(() => {
-        inputRef.current.select()
+        inputRef.current.select();
       }, 0);
     }
   }, [isRenameShow]);
@@ -197,7 +207,7 @@ export const RenameModal = () => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-            <Form.Control
+          <Form.Control
             ref={inputRef}
             id="name"
             type="text"
@@ -216,7 +226,7 @@ export const RenameModal = () => {
           <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
         </Form>
         <div className="d-flex justify-content-end">
-          <Button variant="secondary" className="me-2" onClick={handleClose}>
+          <Button variant="secondary" className="me-2" onClick={() => handleClose(formik)}>
             {t('modals.cancel')}
           </Button>
           <Button variant="primary" onClick={formik.handleSubmit}>
@@ -225,5 +235,5 @@ export const RenameModal = () => {
         </div>
       </Modal.Body>
     </Modal>
-  )
+  );
 };

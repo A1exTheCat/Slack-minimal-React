@@ -20,7 +20,7 @@ const ru = {
       uniqeNameErrorModal: 'Должно быть уникальным',
       networkError: 'Ошибка соединения',
       minMessage: 'Минимум 1 буква',
-    }
+    },
   },
   navBar: {
     exit: 'Выход',
@@ -49,7 +49,12 @@ const ru = {
     addChannel: 'Канал создан',
     removeChannel: 'Канал удалён',
     renameChannel: 'Канал переименован',
-  }
-}
+  },
+  page404: {
+    noPage: 'Страница не найдена',
+    canRelocate: 'Но вы можете перейти',
+    toMainPage: 'на главную страницу',
+  },
+};
 
 export default ru;
