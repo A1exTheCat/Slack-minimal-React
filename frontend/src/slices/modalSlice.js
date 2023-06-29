@@ -1,5 +1,13 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-cycle */
+
 import { createSlice } from '@reduxjs/toolkit';
-import { addChannelThunk, renameChannelThunk, removeChannelThunk, actions as channelsActions } from './channelsSlice.js';
+import {
+  addChannelThunk,
+  renameChannelThunk,
+  removeChannelThunk,
+  actions as channelsActions,
+} from './channelsSlice.js';
 import { addMessageThunk } from './messagesSlice.js';
 
 const initialState = {

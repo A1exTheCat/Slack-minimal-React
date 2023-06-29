@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-cycle */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { actions as channelsActions } from './channelsSlice.js';
 import { actions as modalActions } from './modalSlice.js';

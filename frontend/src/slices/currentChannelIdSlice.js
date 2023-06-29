@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-cycle */
+
 import { createSlice } from '@reduxjs/toolkit';
 import { actions as channelsActions } from './channelsSlice.js';
 
@@ -19,17 +22,17 @@ const currentChannelIdSlice = createSlice({
       if (state.currentChannelId === action.payload.id) {
         state.currentChannelId = 1;
       }
-    }),
+    })
     // переключение на новый канал при создании
-    builder.addCase(channelsActions.addTempChannel, (state) => {
-      state.currentChannelId = 0;
-    }),
-    builder.addCase(channelsActions.addChannel, (state, action) => {
-      const { id } = action.payload;
-      if (state.currentChannelId === 0) {
-        state.currentChannelId = id;
-      }
-    }),
+      .addCase(channelsActions.addTempChannel, (state) => {
+        state.currentChannelId = 0;
+      })
+      .addCase(channelsActions.addChannel, (state, action) => {
+        const { id } = action.payload;
+        if (state.currentChannelId === 0) {
+          state.currentChannelId = id;
+        }
+      });
   },
 });
 

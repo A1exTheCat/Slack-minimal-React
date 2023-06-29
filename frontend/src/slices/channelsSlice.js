@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-cycle */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { actions as modalActions } from './modalSlice.js';
 /* Чанки устроены так, что от вервера получается ответ на любой запрос "ок" или нет,
