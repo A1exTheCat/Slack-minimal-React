@@ -21,16 +21,19 @@ Chat App is an SPA application like a simplified version of Slack. Registration 
 ### Examples
 
 #### Chat page:
-![Screenshot_3](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/3223a0ae-507b-4df4-8af8-03507ff8b159)
+![1](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/df522921-443b-4e0d-8a19-bf550d49e11b)
 
-#### Channel rename:
-![Screenshot_5](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/a6bab6ed-97f8-456d-b562-d647ea117d69)
-
-#### Channel remove:
-![Screenshot_6](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/4ac3bda6-0578-47cb-9e8f-4f3cb6c21ed5)
+#### Registration form:
+![5](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/5c4a2a7d-8d9e-4a19-b20f-8505cc187d57)
 
 #### Add new channel:
-![Screenshot_4](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/91b0060c-1c14-4229-8262-888468f6b35e)
+![2](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/ac1f51f7-49c3-4432-bf99-d6f19293d1d9)
+
+#### Channel rename:
+![3](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/3579a8ff-467b-4284-bf60-b76d09ccb022)
+
+#### Channel remove:
+![4](https://github.com/A1exTheCat/Slack-minimal-React/assets/111634577/c312663a-480b-4fc6-be9a-b01f909cdee9)
 
 # How to use:
 1. Clone the repository.
